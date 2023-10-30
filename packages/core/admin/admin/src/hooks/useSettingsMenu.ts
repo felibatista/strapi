@@ -1,17 +1,45 @@
-import { useState, useEffect, useCallback } from 'react';
+import * as React from 'react';
 
-import { hasPermissions, useRBACProvider, useStrapiApp, useAppInfo } from '@strapi/helper-plugin';
+import {
+  hasPermissions,
+  StrapiAppSetting,
+  StrapiAppSettingLink,
+  useRBACProvider,
+  useStrapiApp,
+  useAppInfo,
+} from '@strapi/helper-plugin';
+import sortBy from 'lodash/sortBy';
 import { useSelector } from 'react-redux';
 
-import { SETTINGS_LINKS_CE } from '../../constants';
-import { selectAdminPermissions } from '../../selectors';
-import { useEnterprise } from '../useEnterprise';
+import { SETTINGS_LINKS_CE } from '../constants';
+import { selectAdminPermissions } from '../selectors';
 
-import formatLinks from './utils/formatLinks';
-import sortLinks from './utils/sortLinks';
+import { useEnterprise } from './useEnterprise';
 
-const useSettingsMenu = () => {
-  const [{ isLoading, menu }, setData] = useState({
+interface SettingsMenuLinkExtended extends StrapiAppSettingLink {
+  hasNotification: boolean;
+  isDisplayed: boolean;
+}
+
+interface StrapiAppSettingExtended extends StrapiAppSetting {
+  links: SettingsMenuLinkExtended[];
+}
+
+const formatLinks = (menu: StrapiAppSettingExtended[]): SettingsMenuLinkExtended[] =>
+  menu.map((menuSection) => {
+    const formattedLinks = menuSection.links.map((link) => ({
+      ...link,
+      isDisplayed: false,
+    }));
+
+    return { ...menuSection, links: formattedLinks };
+  });
+
+export const useSettingsMenu = () => {
+  const [{ isLoading, menu }, setData] = React.useState<{
+    isLoading: boolean;
+    menu: StrapiAppSettingExtended[];
+  }>({
     isLoading: true,
     menu: [],
   });
@@ -22,7 +50,7 @@ const useSettingsMenu = () => {
 
   const { global: globalLinks, admin: adminLinks } = useEnterprise(
     SETTINGS_LINKS_CE,
-    async () => (await import('../../../../ee/admin/src/constants')).SETTINGS_LINKS_EE,
+    async () => (await import('../../../ee/admin/src/constants')).SETTINGS_LINKS_EE,
     {
       combine(getCeLinks, getEeLinks) {
         const ceLinks = getCeLinks();
@@ -40,7 +68,7 @@ const useSettingsMenu = () => {
     }
   );
 
-  const addPermissions = useCallback(
+  const addPermissions = React.useCallback(
     (link) => {
       if (!link.id) {
         throw new Error('The settings menu item must have an id attribute.');
@@ -54,7 +82,7 @@ const useSettingsMenu = () => {
     [permissions.settings]
   );
 
-  useEffect(() => {
+  React.useEffect(() => {
     const getData = async () => {
       const buildMenuPermissions = (sections) =>
         Promise.all(
@@ -93,16 +121,16 @@ const useSettingsMenu = () => {
     };
 
     const { global, ...otherSections } = settings;
-
     const sections = formatLinks([
       {
         ...settings.global,
-        links: sortLinks([...settings.global.links, ...globalLinks.map(addPermissions)]).map(
-          (link) => ({
-            ...link,
-            hasNotification: link.id === '000-application-infos' && shouldUpdateStrapi,
-          })
-        ),
+        links: sortBy(
+          [...settings.global.links, ...globalLinks.map(addPermissions)],
+          (link) => link.id
+        ).map((link) => ({
+          ...link,
+          hasNotification: link.id === '000-application-infos' && shouldUpdateStrapi,
+        })),
       },
       {
         id: 'permissions',
@@ -115,14 +143,11 @@ const useSettingsMenu = () => {
     getData();
   }, [adminLinks, globalLinks, userPermissions, settings, shouldUpdateStrapi, addPermissions]);
 
-  const filterMenu = (menuItem) => {
-    return {
+  return {
+    isLoading,
+    menu: menu.map((menuItem) => ({
       ...menuItem,
       links: menuItem.links.filter((link) => link.isDisplayed),
-    };
+    })),
   };
-
-  return { isLoading, menu: menu.map(filterMenu) };
 };
-
-export default useSettingsMenu;

@@ -28,8 +28,8 @@ import isEqual from 'lodash/isEqual';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 
-import { useSettingsForm } from '../../../../../../../admin/src/hooks';
 import { useAdminRoles } from '../../../../../../../admin/src/hooks/useAdminRoles';
+import useSettingsForm from '../../../../../../../admin/src/hooks/useSettingsForm';
 import { selectAdminPermissions } from '../../../../../../../admin/src/selectors';
 
 import schema from './utils/schema';
