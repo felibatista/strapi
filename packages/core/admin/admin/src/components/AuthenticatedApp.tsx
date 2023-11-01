@@ -152,7 +152,6 @@ const AuthenticatedApp = () => {
       userDisplayName={userDisplayName}
     >
       <RBACProvider permissions={permissions ?? []} refetchPermissions={refetch}>
-        <NpsSurvey />
         <PluginsInitializer />
       </RBACProvider>
     </AppInfoProvider>
