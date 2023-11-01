@@ -11,7 +11,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { DefaultTheme } from 'styled-components';
 
 import { App } from './App';
-import Logo from './assets/images/favicon.ico';
+import Logo from './assets/images/favicon.png';
 import { LANGUAGE_LOCAL_STORAGE_KEY } from './components/LanguageProvider';
 import { Providers } from './components/Providers';
 import { HOOKS } from './constants';
@@ -106,7 +106,7 @@ class StrapiApp {
   translations: StrapiApp['configurations']['translations'];
 
   constructor({ adminConfig, appPlugins }: StrapiAppConstructorArgs = {}) {
-    this.customConfigurations = adminConfig?.config ?? {};
+    this.customConfigurations = {};
     this.customBootstrapConfiguration = adminConfig?.bootstrap;
     this.configurations = {
       authLogo: Logo,
