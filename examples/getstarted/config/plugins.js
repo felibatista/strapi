@@ -22,7 +22,7 @@ module.exports = () => ({
     },
   },
   myplugin: {
-    enabled: true,
+    enabled: false,
     resolve: `./src/plugins/myplugin`, // From the root of the project
     config: {
       testConf: 3,

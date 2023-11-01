@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { ReducersMapObject } from '@reduxjs/toolkit';
 import { darkTheme, lightTheme } from '@strapi/design-system';
 import { MenuItem, StrapiAppSetting, StrapiAppSettingLink } from '@strapi/helper-plugin';
@@ -10,7 +11,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { DefaultTheme } from 'styled-components';
 
 import { App } from './App';
-import Logo from './assets/images/logo-strapi-2022.svg';
+import Logo from './assets/images/favicon.ico';
 import { LANGUAGE_LOCAL_STORAGE_KEY } from './components/LanguageProvider';
 import { Providers } from './components/Providers';
 import { HOOKS } from './constants';
@@ -109,13 +110,13 @@ class StrapiApp {
     this.customBootstrapConfiguration = adminConfig?.bootstrap;
     this.configurations = {
       authLogo: Logo,
-      head: { favicon: '' },
-      locales: ['en'],
+      head: { favicon: Logo },
+      locales: ['es'],
       menuLogo: Logo,
-      notifications: { releases: true },
+      notifications: { releases: false },
       themes: { light: lightTheme, dark: darkTheme },
       translations: {},
-      tutorials: true,
+      tutorials: false,
     };
     this.appPlugins = appPlugins || {};
     this.library = {
@@ -290,8 +291,8 @@ class StrapiApp {
   createCustomConfigurations = async () => {
     if (this.customConfigurations?.locales) {
       this.configurations.locales = [
-        'en',
-        ...(this.customConfigurations.locales?.filter((loc) => loc !== 'en') || []),
+        'es',
+        ...(this.customConfigurations.locales?.filter((loc) => loc !== 'es') || []),
       ];
     }
 

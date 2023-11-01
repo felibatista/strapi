@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import * as React from 'react';
 
 import { Box, Button, Flex, Grid, GridItem, Layout, Main, Typography } from '@strapi/design-system';
@@ -135,14 +136,6 @@ const HomePageCE = () => {
                   </Flex>
                 </Box>
               </div>
-            </GridItem>
-          </Grid>
-          <Grid gap={6}>
-            <GridItem col={8} s={12}>
-              {showGuidedTour ? <GuidedTourHomepage /> : <ContentBlocks />}
-            </GridItem>
-            <GridItem col={4} s={12}>
-              <SocialLinks />
             </GridItem>
           </Grid>
         </Box>
