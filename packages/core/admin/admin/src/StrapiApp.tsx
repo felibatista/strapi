@@ -108,13 +108,30 @@ class StrapiApp {
   constructor({ adminConfig, appPlugins }: StrapiAppConstructorArgs = {}) {
     this.customConfigurations = {};
     this.customBootstrapConfiguration = adminConfig?.bootstrap;
+
+    lightTheme.colors.primary100 ='#ffbaba'
+    lightTheme.colors.primary200 ='#ff7b7b'
+    lightTheme.colors.primary500 ='#ff5252'
+    lightTheme.colors.primary600 ='#ff0000'
+    lightTheme.colors.primary700 ='#a70000'
+
+    lightTheme.colors.secondary100 ='#b3e5fc'
+    lightTheme.colors.secondary200 ='#81d4fa'
+    lightTheme.colors.secondary500 ='#4fc3f7'
+    lightTheme.colors.secondary600 ='#03a9f4'
+    lightTheme.colors.secondary700 ='#0276aa'
+
+    lightTheme.colors.buttonPrimary500 ='#ff5252'
+    lightTheme.colors.buttonPrimary600 ='#ff0000'
+
+    
     this.configurations = {
       authLogo: Logo,
       head: { favicon: Logo },
       locales: ['es'],
       menuLogo: Logo,
       notifications: { releases: false },
-      themes: { light: lightTheme, dark: darkTheme },
+      themes: { light: lightTheme, dark: lightTheme },
       translations: {},
       tutorials: false,
     };

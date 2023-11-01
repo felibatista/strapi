@@ -158,7 +158,7 @@ export default function () {
   return (
     <>
       <Helmet
-        title={formatMessage({ id: getTrad('plugin.name'), defaultMessage: 'Content Manager' })}
+        title={formatMessage({ id: getTrad('plugin.name'), defaultMessage: 'Administración de noticias' })}
       />
       <App />
     </>
